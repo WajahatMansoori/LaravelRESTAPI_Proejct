@@ -124,8 +124,45 @@ class LoginController extends Controller
                 $marks->StudentName=$request->input('StudentName');
                 $marks->save();
                 return response()->json([
-                    'Alert'=>'Marks Uploaded Successfully','Admin'=>$_SESSION['UserName']
+                    'Alert'=>'Marks Uploaded Successfully',
+                    'Admin'=>$_SESSION['UserName']
                     ]);
+            }
+        }
+        catch(\Exception $e)
+        {
+            return response()->json([
+                'Alert'=>'Unauthorize User'
+                ]);
+        }
+    }
+
+    public function UpdateMarks(Request $request,$id)
+    {
+        try
+        {
+            session_start();
+            if($_SESSION['UserName']!=null)
+            {
+                $marks=Mark::find($id);
+                $marks->Course_Code=$request->input('Course_Code');
+                $marks->Total_Marks=$request->input('Total_Marks');
+                $marks->Obtained_Marks=$request->input('Obtained_Marks');
+                $marks->Percentage=($marks->Obtained_Marks/$marks->Total_Marks)*100;
+                if($marks->Percentage>=60)
+                {
+                    $marks->Status='Pass';
+                }
+                else
+                {
+                    $marks->Status='Fail';
+                }
+                $marks->StudentName=$request->input('StudentName');
+                $marks->save();
+                return response()->json([
+                    'Alert'=>'Data Updated Successfully',
+                    'By Admin'=>$_SESSION['UserName']
+                ]);
             }
         }
         catch(\Exception $e)

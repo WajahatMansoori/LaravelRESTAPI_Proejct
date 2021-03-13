@@ -69,7 +69,7 @@ class StudentloginController extends Controller
                         "Obtained_Marks" => $Record['Obtained_Marks'],
                         "Percentage" => $Record['Percentage'],
                         "Status" => $Record['Status'],
-                        //"Student_Name" => $Record['StudentName'],
+                        
                     );
                     // $Marks=Marks::all();
                     return response()->json([
